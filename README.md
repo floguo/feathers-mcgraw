@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Feathers McGraw Criminal Database
+
+A retro-styled criminal database interface tracking the notorious penguin criminal, Feathers McGraw. Built with Next.js, React Three Fiber, and Tailwind CSS.
+
+## Features
+
+- 🎯 Radar tracking system with animated sweep
+- 🔄 3D model viewer with rotating criminal profile
+- 📊 Biometric analysis
+- 🕒 Live timestamp and connection status
+- 📝 Detailed operation history with timeline navigation
+- 💫 Retro terminal-style animations and effects
+- 📱 Fully responsive design
+
+## Tech Stack
+
+- Next.js 14
+- React Three Fiber / Three.js
+- Tailwind CSS
+- Lucide Icons
+- TypeScript
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
 ```bash
 npm run dev
@@ -18,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist Mono](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
