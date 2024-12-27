@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -96,3 +95,4 @@ background: rgba(52, 211, 153, 0.7);
     @apply bg-background text-foreground;
   }
 }
+
