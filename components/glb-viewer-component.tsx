@@ -56,7 +56,7 @@ const GLBViewerComponent = () => {
       <Canvas shadows>
         <PerspectiveCamera 
           makeDefault 
-          position={[0, 1.5, 2]} 
+          position={[0, 5, 2]} 
           fov={25} 
         />
         <ambientLight intensity={0.8} />
@@ -77,12 +77,18 @@ const GLBViewerComponent = () => {
         />
       </Canvas>
 
-      <div className="absolute top-2 left-2 bg-gray-900/80 backdrop-blur-sm p-2 rounded-lg shadow-md">
-        <RadioGroup defaultValue={models[0].url} onValueChange={setCurrentModelUrl}>
+      <div className="absolute bottom-2 bg-gray-900/80 backdrop-blur-sm p-2 rounded-lg shadow-md">
+        <RadioGroup defaultValue={models[0].url} onValueChange={setCurrentModelUrl} className="space-y-1">
           {models.map((model) => (
             <div key={model.url} className="flex items-center space-x-2">
-              <RadioGroupItem value={model.url} id={model.name} />
-              <Label htmlFor={model.name} className="text-emerald-300 text-xs">{model.name}</Label>
+              <RadioGroupItem 
+                value={model.url} 
+                id={model.name} 
+                className="border-emerald-400 text-emerald-400 focus:border-emerald-500"
+              />
+              <Label htmlFor={model.name} className="text-emerald-300 text-xs">
+                {model.name}
+              </Label>
             </div>
           ))}
         </RadioGroup>
