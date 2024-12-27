@@ -78,7 +78,6 @@ const FeathersDashboard = () => {
       "Silent Operator - No Known Vocalizations",
       "Advanced Engineering Expertise",
       "Tool Manipulation Despite Flippers",
-      "Exceptional Problem-Solving Capabilities"
     ],
     lastSeen: {
       location: "62 West Wallaby Street, Wigan",
@@ -144,7 +143,7 @@ const FeathersDashboard = () => {
 
         <CardContent className="grid grid-cols-4 gap-2 p-2 h-[calc(100vh-12rem)] overflow-y-auto">
           {/* 3D Model Viewer - adjust height */}
-          <Card className="bg-gray-800 border-emerald-400 border col-span-2 h-[500px]">
+          <Card className="bg-gray-800 border-emerald-400 border col-span-1 h-[500px]">
             <CardHeader className="h-[40px]">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                 <CubeIcon className="h-4 w-4" />
@@ -156,10 +155,6 @@ const FeathersDashboard = () => {
                 <CustomGLBViewer />
               </div>
             </CardContent>
-          </Card>
-
-          {/* Right side cards - reduce spacing */}
-          <div className="col-span-2 space-y-2">
             <Card className="bg-gray-800 border-emerald-400 border">
               <CardHeader>
                 <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
@@ -176,8 +171,76 @@ const FeathersDashboard = () => {
                   <div className="text-emerald-300">WEIGHT:</div>
                   <div>{criminalProfile.weight}</div>
                 </div>
-                <div className="mt-2">
-                  <div className="mb-2 text-emerald-300">DISTINGUISHING FEATURES:</div>
+              </CardContent>
+            </Card>
+          </Card>
+          
+
+          {/* Right side cards - reduce spacing */}
+          <div className="col-span-3 space-y-2">
+            <Card className="bg-gray-800 border-emerald-400 border">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
+                  <MapPin className="h-4 w-4" />
+                  SURVEILLANCE STATUS
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-3 gap-4 text-sm">
+                {/* Column 1: Radar Display */}
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-2 text-emerald-100">
+                    <div className="text-emerald-300">LOCATION:</div>
+                    <div>{criminalProfile.lastSeen.location}</div>
+                    <div className="text-emerald-300">TIMESTAMP:</div>
+                    <div>{criminalProfile.lastSeen.timestamp}</div>
+                    <div className="text-emerald-300">STATUS:</div>
+                    <div className="text-red-400 animate-pulse">{criminalProfile.lastSeen.status}</div>
+                  </div>
+                </div>
+
+                {/* Column 2: Location Info */}
+                <div>
+                  <div className="w-full h-36 relative">
+                    <svg className="w-full h-full" viewBox="-10 -10 220 220">
+                      {/* Radar elements */}
+                      <circle cx="100" cy="100" r="98" fill="none" stroke="rgb(52, 211, 153)" strokeWidth="2" />
+                      {/* Background circles */}
+                      {[1, 2, 3, 4].map((ring) => (
+                        <circle key={ring} cx="100" cy="100" r={ring * 20} fill="none" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
+                      ))}
+                      <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
+                      <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
+                      <path
+                        d={`M 100,100 L 100,0 A 100,100 0 ${radarAngle > 180 ? 1 : 0} 1 ${
+                          100 + Math.sin(radarAngle * Math.PI / 180) * 100
+                        } ${
+                          100 - Math.cos(radarAngle * Math.PI / 180) * 100
+                        } Z`}
+                        fill="rgba(52, 211, 153, 0.2)"
+                      />
+                      <line
+                        x1="100" y1="100"
+                        x2={100 + Math.sin(radarAngle * Math.PI / 180) * 100}
+                        y2={100 - Math.cos(radarAngle * Math.PI / 180) * 100}
+                        stroke="rgba(52, 211, 153, .5)"
+                        strokeWidth="2"
+                      />
+                      <circle 
+                        cx="140" 
+                        cy="60" 
+                        r="3" 
+                        fill="rgb(239 68 68)"
+                        style={{
+                          animation: 'blink 2s ease-in-out infinite',
+                        }}
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Column 3: Distinguishing Features */}
+                <div>
+                  <div className="text-emerald-300 mb-2">DISTINGUISHING FEATURES:</div>
                   <ul className="list-none space-y-2">
                     {criminalProfile.distinguishingFeatures.map((feature, index) => (
                       <li key={index} className="flex items-start gap-2 text-emerald-100">
@@ -186,62 +249,6 @@ const FeathersDashboard = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gray-800 border-emerald-400 border">
-              <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                  <MapPin className="h-4 w-4" />
-                  SURVEILLANCE STATUS
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                {/* Radar Display */}
-                <div className="w-full h-36 mb-4 relative">
-                  <svg className="w-full h-full" viewBox="-10 -10 220 220">
-                    {/* Radar elements */}
-                    <circle cx="100" cy="100" r="98" fill="none" stroke="rgb(52, 211, 153)" strokeWidth="2" />
-                    {/* Background circles */}
-                    {[1, 2, 3, 4].map((ring) => (
-                      <circle key={ring} cx="100" cy="100" r={ring * 20} fill="none" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
-                    ))}
-                    <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
-                    <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
-                    <path
-                      d={`M 100,100 L 100,0 A 100,100 0 ${radarAngle > 180 ? 1 : 0} 1 ${
-                        100 + Math.sin(radarAngle * Math.PI / 180) * 100
-                      } ${
-                        100 - Math.cos(radarAngle * Math.PI / 180) * 100
-                      } Z`}
-                      fill="rgba(52, 211, 153, 0.2)"
-                    />
-                    <line
-                      x1="100" y1="100"
-                      x2={100 + Math.sin(radarAngle * Math.PI / 180) * 100}
-                      y2={100 - Math.cos(radarAngle * Math.PI / 180) * 100}
-                      stroke="rgba(52, 211, 153, .5)"
-                      strokeWidth="2"
-                    />
-                    <circle 
-                      cx="140" 
-                      cy="60" 
-                      r="3" 
-                      fill="rgb(239 68 68)"
-                      style={{
-                        animation: 'blink 2s ease-in-out infinite',
-                      }}
-                    />
-                  </svg>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-emerald-100">
-                  <div className="text-emerald-300">LOCATION:</div>
-                  <div>{criminalProfile.lastSeen.location}</div>
-                  <div className="text-emerald-300">TIMESTAMP:</div>
-                  <div>{criminalProfile.lastSeen.timestamp}</div>
-                  <div className="text-emerald-300">STATUS:</div>
-                  <div className="text-red-400 animate-pulse">{criminalProfile.lastSeen.status}</div>
                 </div>
               </CardContent>
             </Card>
