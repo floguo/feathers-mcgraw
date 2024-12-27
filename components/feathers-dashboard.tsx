@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Target, FileText, Shield, Wifi, Radio, AlertTriangle } from 'lucide-react';
 import { CustomGLBViewer } from './custom-glb-viewer';
+import { TypeWriter } from './type-writer';
 
 // Add keyframes styles to a style tag
 const styles = `
@@ -353,9 +354,9 @@ const FeathersDashboard = () => {
                       {/* Operation details box */}
                       <div className="min-h-[200px] p-4 bg-gray-900/50 rounded border border-emerald-400/20">
                         <div className="text-emerald-400 font-medium mb-3">OPERATION DETAILS:</div>
-                        <p className="text-emerald-100/90 font-mono leading-relaxed">
-                          {plot.details}
-                        </p>
+                        <div className="text-emerald-100/90">
+                          <TypeWriter text={plot.details} speed={20} delay={500} />
+                        </div>
                       </div>
                     </div>
                   </div>
