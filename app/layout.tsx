@@ -1,22 +1,35 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Feathers McGraw",
-  description: "Criminal Intelligence",
+  description: "Criminal Database",
 };
+
+const styles = `
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(52, 211, 153, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(52, 211, 153, 0.5);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(52, 211, 153, 0.7);
+  }
+`;
 
 export default function RootLayout({
   children,
@@ -25,11 +38,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`bg-gray-950`}
-      >
-        {children}
-      </body>
+      <head>
+        <style>{styles}</style>
+      </head>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

@@ -25,6 +25,26 @@ const styles = `
   .animate-typing {
     animation: typing 0.5s ease-out forwards;
   }
+
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(52, 211, 153, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(52, 211, 153, 0.5);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(52, 211, 153, 0.7);
+  }
 `;
 
 const wrapText = (text: string, maxLength: number = 80): string[] => {
@@ -217,10 +237,10 @@ const FeathersDashboard = () => {
           </div>
         </CardHeader>
 
-        {/* Content - adjust grid to fill available space */}
-        <CardContent className="grid grid-cols-4 gap-2 p-2">
-          {/* Left Column - 3D Model & Biometrics */}
-          <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
+        {/* Main content grid - stack on mobile */}
+        <CardContent className="grid grid-cols-1 lg:grid-cols-4 gap-2 p-2 lg:h-[calc(100vh-16rem)] overflow-y-auto">
+          {/* Left Column - Full width on mobile */}
+          <Card className="bg-gray-800 border-emerald-400 border rounded-sm lg:col-span-1">
             <CardHeader className="h-[40px]">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                 <Target className="h-4 w-4" />
@@ -244,10 +264,10 @@ const FeathersDashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Right Column - Surveillance & Operations */}
-          <div className="col-span-3 space-y-2">
-            {/* Surveillance Cards */}
-            <div className="grid grid-cols-2 gap-2">
+          {/* Right Column - Full width on mobile */}
+          <div className="lg:col-span-3 space-y-2 flex flex-col">
+            {/* Surveillance Cards - Stack on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {/* Status Card */}
               <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
                 <CardHeader>
@@ -257,8 +277,8 @@ const FeathersDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 text-sm">
-                  {/* Location Info */}
-                  <div className="grid grid-cols-2 gap-2 text-emerald-100">
+                  {/* Location Info - Full width on mobile */}
+                  <div className="grid grid-cols-[120px_1fr] sm:grid-cols-2 gap-2 text-emerald-100">
                     <div className="text-emerald-400 font-medium">LOCATION:</div>
                     <div>{criminalProfile.lastSeen.location}</div>
                     <div className="text-emerald-400 font-medium">TIMESTAMP:</div>
@@ -331,14 +351,14 @@ const FeathersDashboard = () => {
               </Card>
             </div>
 
-            {/* Operations Card */}
-            <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
+            {/* Operations Card - Make it fill remaining height */}
+            <Card className="bg-gray-800 border-emerald-400 border rounded-sm flex-1">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                   <FileText className="h-4 w-4" />
                   KNOWN OPERATIONS
                 </CardTitle>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {Object.keys(operationsByYear).map((year) => (
                     <button
                       key={year}
@@ -354,46 +374,44 @@ const FeathersDashboard = () => {
                   ))}
                 </div>
               </CardHeader>
-              <CardContent>
-                {/* Fixed height container for operations */}
-                <div className="h-[300px] overflow-y-auto">
-                  {operationsByYear[selectedYear as unknown as keyof typeof operationsByYear].map((plot, index) => (
-                    <div key={index} className="mb-4 text-sm">
-                      <div className="grid grid-cols-2 gap-4">
-                        {/* Left column - Operation info */}
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-[180px_1fr] gap-x-4 gap-y-3 items-baseline">
-                            <div className="text-emerald-400 font-medium">OPERATION NAME:</div>
-                            <div className="text-emerald-100">{plot.operationName}</div>
-                            
-                            <div className="text-emerald-400 font-medium">DATE:</div>
-                            <div className="text-emerald-100">{plot.date}</div>
-                            
-                            <div className="text-emerald-400 font-medium">PRIMARY TARGET:</div>
-                            <div className="text-emerald-100">{plot.primaryTarget}</div>
-                            
-                            <div className="text-emerald-400 font-medium">METHODOLOGY:</div>
-                            <div className="text-emerald-100">{plot.methodology}</div>
-                            
-                            <div className="text-emerald-400 font-medium">OUTCOME:</div>
-                            <div className="text-red-400">{plot.outcome}</div>
-                            
-                            <div className="text-emerald-400 font-medium">OPERATIVE:</div>
-                            <div className="text-emerald-100">{plot.operativeInvolved}</div>
-                          </div>
-                        </div>
-
-                        {/* Right column - Operation details */}
-                        <div className="min-h-[200px] p-4 bg-gray-900/50 rounded border border-emerald-400/20">
-                          <div className="text-emerald-400 font-medium mb-3">OPERATION DETAILS:</div>
-                          <p className="text-emerald-100/90 font-mono leading-relaxed">
-                            {plot.details}
-                          </p>
+              <CardContent className="flex-1">
+                {/* Remove height constraint and overflow */}
+                {operationsByYear[selectedYear as unknown as keyof typeof operationsByYear].map((plot, index) => (
+                  <div key={index} className="mb-4 text-sm">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      {/* Operation info */}
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-[120px_1fr] lg:grid-cols-[180px_1fr] gap-x-4 gap-y-3 items-baseline">
+                          <div className="text-emerald-400 font-medium">OPERATION NAME:</div>
+                          <div className="text-emerald-100">{plot.operationName}</div>
+                          
+                          <div className="text-emerald-400 font-medium">DATE:</div>
+                          <div className="text-emerald-100">{plot.date}</div>
+                          
+                          <div className="text-emerald-400 font-medium">PRIMARY TARGET:</div>
+                          <div className="text-emerald-100">{plot.primaryTarget}</div>
+                          
+                          <div className="text-emerald-400 font-medium">METHODOLOGY:</div>
+                          <div className="text-emerald-100">{plot.methodology}</div>
+                          
+                          <div className="text-emerald-400 font-medium">OUTCOME:</div>
+                          <div className="text-red-400">{plot.outcome}</div>
+                          
+                          <div className="text-emerald-400 font-medium">OPERATIVE:</div>
+                          <div className="text-emerald-100">{plot.operativeInvolved}</div>
                         </div>
                       </div>
+
+                      {/* Operation details box */}
+                      <div className="min-h-[200px] p-4 bg-gray-900/50 rounded border border-emerald-400/20">
+                        <div className="text-emerald-400 font-medium mb-3">OPERATION DETAILS:</div>
+                        <p className="text-emerald-100/90 font-mono leading-relaxed">
+                          {plot.details}
+                        </p>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </div>
