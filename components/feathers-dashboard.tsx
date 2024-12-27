@@ -32,6 +32,7 @@ const FeathersDashboard = () => {
   const [blinkStatus, setBlinkStatus] = useState(true);
   const [loadedSections, setLoadedSections] = useState<string[]>([]);
   const [radarAngle, setRadarAngle] = useState(0);
+  const [selectedYear, setSelectedYear] = useState('1993');
 
   useEffect(() => {
     // Add styles to document head
@@ -70,7 +71,7 @@ const FeathersDashboard = () => {
     alias: "THE PENGUIN",
     threatLevel: "EXTREME",
     classificationLevel: "OMEGA",
-    species: "Penguin (Criminal Mastermind)",
+    species: "Penguin",
     height: "3.0 ft",
     weight: "12 lbs",
     distinguishingFeatures: [
@@ -101,6 +102,43 @@ const FeathersDashboard = () => {
       "Masterful Disguise Artist",
       "Strategic Planning Specialist",
       "High Escape Risk"
+    ]
+  };
+
+  // First, add the operations data by year
+  const operationsByYear = {
+    1993: [
+      {
+        operationName: "OPERATION TROUSERS",
+        date: "1993",
+        primaryTarget: "MUSEUM DIAMOND",
+        methodology: "INFILTRATION & TECHNO-TROUSERS HIJACK",
+        outcome: "CAPTURED",
+        operativeInvolved: "GROMIT",
+        details: "Subject infiltrated residence at 62 West Wallaby Street posing as lodger. Modified existing Techno-Trousers with remote control capabilities. Used sleeping resident as unwitting accomplice in museum heist. Pursuit ended in model train chase. Subject apprehended and transferred to West Wallaby Zoo."
+      }
+    ],
+    2003: [
+      {
+        operationName: "OPERATION ZOO COUP",
+        date: "2003",
+        primaryTarget: "WEST WALLABY ZOO CONTROL",
+        methodology: "FORCED LABOR & MECHANIZED WARFARE",
+        outcome: "NEUTRALIZED",
+        operativeInvolved: "ZOO SECURITY",
+        details: "From containment, orchestrated zoo-wide takeover. Established illegal diamond mining operation using captive animal labor. Deployed automated penguin units and mining machinery. Final confrontation involved weaponized exoskeleton with missile capabilities. Threat contained by coordinated zoo animal response."
+      }
+    ],
+    2024: [
+      {
+        operationName: "OPERATION GARDEN GNOME",
+        date: "2024",
+        primaryTarget: "CITYWIDE INFRASTRUCTURE",
+        methodology: "REMOTE HACKING & ROBOTIC MANIPULATION",
+        outcome: "ESCAPED",
+        operativeInvolved: "GROMIT",
+        details: "Remotely compromised Norbot garden gnome system. Orchestrated city-wide theft campaign via robotic proxies. Constructed submarine for sewer-based exfiltration. Original Blue Diamond discovered in historical teapot. Subject last seen boarding Yorkshire-bound train with counterfeit diamond (actually turnip)."
+      }
     ]
   };
 
@@ -141,28 +179,20 @@ const FeathersDashboard = () => {
           </div>
         </CardHeader>
 
-        <CardContent className="grid grid-cols-4 gap-2 p-2 h-[calc(100vh-12rem)] overflow-y-auto">
+        <CardContent className="grid grid-cols-4 gap-2 p-2 h-full overflow-y-auto">
           {/* 3D Model Viewer - adjust height */}
-          <Card className="bg-gray-800 border-emerald-400 border col-span-1 h-[500px]">
+          <Card className="bg-gray-800 border-emerald-400 border col-span-1">
             <CardHeader className="h-[40px]">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                <CubeIcon className="h-4 w-4" />
-                3D MODEL ANALYSIS
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="h-[calc(100%-40px)]">
-              <div className="h-full w-full">
-                <CustomGLBViewer />
-              </div>
-            </CardContent>
-            <Card className="bg-gray-800 border-emerald-400 border">
-              <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                  <Target className="h-4 w-4" />
+                 <Target className="h-4 w-4" />
                   BIOMETRIC ANALYSIS
                 </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm">
+            </CardHeader>
+            <CardContent>
+              <div className="h-[500px]">
+                <CustomGLBViewer />
+              </div>
+               <div className="space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-2 text-emerald-100">
                   <div className="text-emerald-300">SPECIES:</div>
                   <div>{criminalProfile.species}</div>
@@ -171,8 +201,8 @@ const FeathersDashboard = () => {
                   <div className="text-emerald-300">WEIGHT:</div>
                   <div>{criminalProfile.weight}</div>
                 </div>
-              </CardContent>
-            </Card>
+            </div>
+            </CardContent>
           </Card>
           
 
@@ -254,14 +284,37 @@ const FeathersDashboard = () => {
             </Card>
             {/* Bottom card */}
           <Card className="bg-gray-800 border-emerald-400 border col-span-4 mt-2">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                 <FileText className="h-4 w-4" />
                 KNOWN OPERATIONS
               </CardTitle>
+              <div className="flex gap-2">
+                {Object.keys(operationsByYear).map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => setSelectedYear(year)}
+                    className={`px-2 py-1 text-xs rounded border border-emerald-400 
+                      ${selectedYear === year 
+                        ? 'bg-emerald-400 text-gray-900' 
+                        : 'bg-transparent text-emerald-400 hover:bg-emerald-400/10'
+                      }`}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
             </CardHeader>
             <CardContent>
-              {criminalProfile.knownPlots.map((plot, index) => (
+              {operationsByYear[selectedYear as unknown as keyof typeof operationsByYear].map((plot: {
+                operationName: string;
+                date: string;
+                primaryTarget: string;
+                methodology: string;
+                outcome: string;
+                operativeInvolved: string;
+                details: string;
+              }, index: number) => (
                 <div key={index} className="border-l border-emerald-400 pl-4 mb-4 text-sm">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-emerald-100">
                     <div className="text-emerald-300">OPERATION NAME:</div>
