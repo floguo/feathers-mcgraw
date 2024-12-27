@@ -218,7 +218,7 @@ const FeathersDashboard = () => {
             {/* Surveillance Cards - Stack on mobile */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {/* Status Card */}
-              <Card className="bg-gray-800 border-emerald-400 border rounded-sm h-[328px]">
+              <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                     <MapPin className="h-4 w-4" />
@@ -252,7 +252,7 @@ const FeathersDashboard = () => {
               </Card>
 
               {/* Radar Card */}
-              <Card className="bg-gray-800 border-emerald-400 border rounded-sm h-[328px]">
+              <Card className="bg-gray-800 border-emerald-400 border rounded-sm h-full">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                     <Radio className="h-4 w-4" />
