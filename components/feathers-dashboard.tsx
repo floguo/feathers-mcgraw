@@ -239,7 +239,7 @@ const FeathersDashboard = () => {
 
         {/* Main content grid - stack on mobile */}
         <CardContent className="grid grid-cols-1 lg:grid-cols-4 gap-2 p-2 lg:h-[calc(100vh-16rem)] overflow-y-auto">
-          {/* Left Column - Full width on mobile */}
+          {/* Left Column - 3D Model & Biometrics */}
           <Card className="bg-gray-800 border-emerald-400 border rounded-sm lg:col-span-1">
             <CardHeader className="h-[40px]">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
@@ -247,17 +247,17 @@ const FeathersDashboard = () => {
                 BIOMETRIC ANALYSIS
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col">
+            <CardContent className="flex flex-col justify-between h-[calc(100%-40px)]">
               <div className="h-[500px]">
                 <CustomGLBViewer />
               </div>
-              <div className="space-y-2 text-sm mt-4">
+              <div className="space-y-2 text-sm border-t border-emerald-400/20 pt-8 pb-4">
                 <div className="grid grid-cols-2 gap-2 text-emerald-100">
-                  <div className="text-emerald-300">SPECIES:</div>
+                  <div className="text-emerald-400 font-medium">SPECIES:</div>
                   <div>{criminalProfile.species}</div>
-                  <div className="text-emerald-300">HEIGHT:</div>
+                  <div className="text-emerald-400 font-medium">HEIGHT:</div>
                   <div>{criminalProfile.height}</div>
-                  <div className="text-emerald-300">WEIGHT:</div>
+                  <div className="text-emerald-400 font-medium">WEIGHT:</div>
                   <div>{criminalProfile.weight}</div>
                 </div>
               </div>

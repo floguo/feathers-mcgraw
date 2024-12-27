@@ -77,7 +77,7 @@ const GLBViewerComponent = () => {
         />
       </Canvas>
 
-      <div className="absolute top-2 bg-gray-900/80 backdrop-blur-sm p-2 rounded-lg shadow-md">
+      <div className="absolute top-2 bg-gray-900/80 backdrop-blur-sm p-2 rounded-sm shadow-md">
         <RadioGroup defaultValue={models[0].url} onValueChange={setCurrentModelUrl} className="space-y-1">
           {models.map((model) => (
             <div key={model.url} className="flex items-center space-x-2">
