@@ -12,6 +12,26 @@ body {
   }
 }
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+width: 8px;
+height: 8px;
+}
+
+::-webkit-scrollbar-track {
+background: rgba(52, 211, 153, 0.1);
+border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+background: rgba(52, 211, 153, 0.5);
+border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: rgba(52, 211, 153, 0.7);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

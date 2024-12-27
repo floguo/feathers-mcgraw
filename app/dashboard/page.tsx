@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, MapPin, Target, Clock, FileText, Shield, Wifi, Radio, AlertTriangle, CuboidIcon } from 'lucide-react';
+import { MapPin, Target, FileText, Shield, Wifi, Radio, AlertTriangle, CuboidIcon } from 'lucide-react';
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Environment, Loader, PerspectiveCamera, ContactShadows } from "@react-three/drei";
+import { OrbitControls, useGLTF, Environment, PerspectiveCamera, ContactShadows } from "@react-three/drei";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import * as THREE from 'three';
@@ -62,7 +62,7 @@ function Model({ url }: { url: string }) {
 const FeathersDashboard = () => {
   const [timeString, setTimeString] = useState('');
   const [blinkStatus, setBlinkStatus] = useState(true);
-  const [loadedSections, setLoadedSections] = useState([]);
+  const [loadedSections, setLoadedSections] = useState<string[]>([]);
   const [radarAngle, setRadarAngle] = useState(0);
   const [currentModelUrl, setCurrentModelUrl] = useState(models[0].url);
 

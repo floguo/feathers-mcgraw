@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, MapPin, Target, Clock, FileText, CuboidIcon as CubeIcon, Shield, Wifi, Radio, AlertTriangle } from 'lucide-react';
+import { MapPin, Target, FileText, Shield, Wifi, Radio, AlertTriangle } from 'lucide-react';
 import { CustomGLBViewer } from './custom-glb-viewer';
 
 // Add keyframes styles to a style tag
@@ -25,59 +25,7 @@ const styles = `
   .animate-typing {
     animation: typing 0.5s ease-out forwards;
   }
-
-  /* Custom Scrollbar Styles */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(52, 211, 153, 0.1);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(52, 211, 153, 0.5);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(52, 211, 153, 0.7);
-  }
 `;
-
-const wrapText = (text: string, maxLength: number = 80): string[] => {
-  const words = text.split(' ');
-  const lines: string[] = [];
-  let currentLine = '';
-
-  words.forEach(word => {
-    if ((currentLine + ' ' + word).length <= maxLength) {
-      currentLine = currentLine ? `${currentLine} ${word}` : word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
-    }
-  });
-  
-  if (currentLine) {
-    lines.push(currentLine);
-  }
-
-  return lines;
-};
-
-// First, create a responsive text component
-const OperationDetails = ({ text }: { text: string }) => {
-  return (
-    <div className="pl-4 font-mono">
-      <p className="text-emerald-100 whitespace-pre-wrap break-words max-w-[80ch]">
-        {text}
-      </p>
-    </div>
-  );
-};
 
 const FeathersDashboard = () => {
   const [timeString, setTimeString] = useState('');
