@@ -251,33 +251,24 @@ const FeathersDashboard = () => {
               </Card>
 
               {/* Radar Card */}
-              <Card className="bg-gray-800 border-emerald-400 border rounded-sm h-full">
+              <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
                     <Radio className="h-4 w-4" />
                     RADAR TRACKING
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="flex items-center justify-center h-[calc(100%-40px)] p-4">
-                  <div className="aspect-square w-full max-w-[250px] relative">
-                    <svg className="w-full h-full" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+                <CardContent className="flex items-center justify-center p-4">
+                  <div className="w-64 h-64 relative">
+                    <svg className="w-full h-full" viewBox="0 0 200 200">
                       {/* Radar elements */}
                       <circle cx="100" cy="100" r="98" fill="none" stroke="rgb(52, 211, 153)" strokeWidth="2" />
                       {/* Background circles */}
                       {[1, 2, 3, 4].map((ring) => (
-                        <circle 
-                          key={ring} 
-                          cx="100" 
-                          cy="100" 
-                          r={ring * 20} 
-                          fill="none" 
-                          stroke="rgba(52, 211, 153, 0.2)" 
-                          strokeWidth="1" 
-                        />
+                        <circle key={ring} cx="100" cy="100" r={ring * 20} fill="none" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
                       ))}
                       <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
                       <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(52, 211, 153, 0.2)" strokeWidth="1" />
-                      {/* Sweep */}
                       <path
                         d={`M 100,100 L 100,0 A 100,100 0 ${radarAngle > 180 ? 1 : 0} 1 ${
                           100 + Math.sin(radarAngle * Math.PI / 180) * 100
@@ -293,13 +284,14 @@ const FeathersDashboard = () => {
                         stroke="rgba(52, 211, 153, .5)"
                         strokeWidth="2"
                       />
-                      {/* Blip */}
                       <circle 
                         cx="140" 
                         cy="60" 
                         r="3" 
                         fill="rgb(239 68 68)"
-                        className="animate-blink"
+                        style={{
+                          animation: 'blink 2s ease-in-out infinite',
+                        }}
                       />
                     </svg>
                   </div>
