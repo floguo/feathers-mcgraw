@@ -56,7 +56,7 @@ const GLBViewerComponent = () => {
       <Canvas shadows>
         <PerspectiveCamera 
           makeDefault 
-          position={[0, 5, 2]} 
+          position={[0, 5.5, 2]} 
           fov={25} 
         />
         <ambientLight intensity={0.8} />

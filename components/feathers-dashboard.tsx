@@ -27,6 +27,38 @@ const styles = `
   }
 `;
 
+const wrapText = (text: string, maxLength: number = 80): string[] => {
+  const words = text.split(' ');
+  const lines: string[] = [];
+  let currentLine = '';
+
+  words.forEach(word => {
+    if ((currentLine + ' ' + word).length <= maxLength) {
+      currentLine = currentLine ? `${currentLine} ${word}` : word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
+  });
+  
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines;
+};
+
+// First, create a responsive text component
+const OperationDetails = ({ text }: { text: string }) => {
+  return (
+    <div className="pl-4 font-mono">
+      <p className="text-emerald-100 whitespace-pre-wrap break-words max-w-[80ch]">
+        {text}
+      </p>
+    </div>
+  );
+};
+
 const FeathersDashboard = () => {
   const [timeString, setTimeString] = useState('');
   const [blinkStatus, setBlinkStatus] = useState(true);
@@ -107,39 +139,45 @@ const FeathersDashboard = () => {
 
   // First, add the operations data by year
   const operationsByYear = {
-    1993: [
-      {
-        operationName: "OPERATION TROUSERS",
-        date: "1993",
-        primaryTarget: "MUSEUM DIAMOND",
-        methodology: "INFILTRATION & TECHNO-TROUSERS HIJACK",
-        outcome: "CAPTURED",
-        operativeInvolved: "GROMIT",
-        details: "Subject infiltrated residence at 62 West Wallaby Street posing as lodger. Modified existing Techno-Trousers with remote control capabilities. Used sleeping resident as unwitting accomplice in museum heist. Pursuit ended in model train chase. Subject apprehended and transferred to West Wallaby Zoo."
-      }
-    ],
-    2003: [
-      {
-        operationName: "OPERATION ZOO COUP",
-        date: "2003",
-        primaryTarget: "WEST WALLABY ZOO CONTROL",
-        methodology: "FORCED LABOR & MECHANIZED WARFARE",
-        outcome: "NEUTRALIZED",
-        operativeInvolved: "ZOO SECURITY",
-        details: "From containment, orchestrated zoo-wide takeover. Established illegal diamond mining operation using captive animal labor. Deployed automated penguin units and mining machinery. Final confrontation involved weaponized exoskeleton with missile capabilities. Threat contained by coordinated zoo animal response."
-      }
-    ],
-    2024: [
-      {
-        operationName: "OPERATION GARDEN GNOME",
-        date: "2024",
-        primaryTarget: "CITYWIDE INFRASTRUCTURE",
-        methodology: "REMOTE HACKING & ROBOTIC MANIPULATION",
-        outcome: "ESCAPED",
-        operativeInvolved: "GROMIT",
-        details: "Remotely compromised Norbot garden gnome system. Orchestrated city-wide theft campaign via robotic proxies. Constructed submarine for sewer-based exfiltration. Original Blue Diamond discovered in historical teapot. Subject last seen boarding Yorkshire-bound train with counterfeit diamond (actually turnip)."
-      }
-    ]
+    1993: [{
+      operationName: "OPERATION TROUSERS",
+      date: "1993",
+      primaryTarget: "MUSEUM DIAMOND",
+      methodology: "INFILTRATION & TECHNO-TROUSERS HIJACK",
+      outcome: "CAPTURED",
+      operativeInvolved: "GROMIT",
+      details: 
+        "Subject infiltrated residence at 62 West Wallaby Street posing as lodger. " +
+        "Modified existing Techno-Trousers with remote control capabilities. Used " +
+        "sleeping resident as unwitting accomplice in museum heist. Pursuit ended in " +
+        "model train chase. Subject apprehended and transferred to West Wallaby Zoo."
+    }],
+    2003: [{
+      operationName: "OPERATION ZOO COUP",
+      date: "2003",
+      primaryTarget: "WEST WALLABY ZOO CONTROL",
+      methodology: "FORCED LABOR & MECHANIZED WARFARE",
+      outcome: "NEUTRALIZED",
+      operativeInvolved: "ZOO SECURITY",
+      details: 
+        "From containment, orchestrated zoo-wide takeover. Established illegal diamond " +
+        "mining operation using captive animal labor. Deployed automated penguin units " +
+        "and mining machinery. Final confrontation involved weaponized exoskeleton with " +
+        "missile capabilities. Threat contained by coordinated zoo animal response."
+    }],
+    2024: [{
+      operationName: "OPERATION GARDEN GNOME",
+      date: "2024",
+      primaryTarget: "CITYWIDE INFRASTRUCTURE",
+      methodology: "REMOTE HACKING & ROBOTIC MANIPULATION",
+      outcome: "ESCAPED",
+      operativeInvolved: "GROMIT",
+      details: 
+        "Remotely compromised Norbot garden gnome system. Orchestrated city-wide theft " +
+        "campaign via robotic proxies. Constructed submarine for sewer-based " +
+        "exfiltration. Original Blue Diamond discovered in historical teapot. Subject " +
+        "last seen boarding Yorkshire-bound train with counterfeit diamond (actually turnip)."
+    }]
   };
 
   return (
@@ -161,8 +199,8 @@ const FeathersDashboard = () => {
         </div>
       </div>
 
-      {/* Main Card */}
-      <Card className="bg-gray-900 border-emerald-400 border h-auto">
+      {/* Main Card - smaller radius */}
+      <Card className="bg-gray-900 border-emerald-400 border rounded-md">
         <CardHeader className="border-b border-emerald-400">
           <div className={`flex items-center justify-between opacity-0 ${loadedSections.includes('header') ? 'animate-typing' : ''}`}>
             <div>
@@ -179,20 +217,21 @@ const FeathersDashboard = () => {
           </div>
         </CardHeader>
 
-        <CardContent className="grid grid-cols-4 gap-2 p-2 h-full overflow-y-auto">
-          {/* 3D Model Viewer - adjust height */}
-          <Card className="bg-gray-800 border-emerald-400 border col-span-1">
+        {/* Content - adjust grid to fill available space */}
+        <CardContent className="grid grid-cols-4 gap-2 p-2">
+          {/* Left Column - 3D Model & Biometrics */}
+          <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
             <CardHeader className="h-[40px]">
               <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                 <Target className="h-4 w-4" />
-                  BIOMETRIC ANALYSIS
-                </CardTitle>
+                <Target className="h-4 w-4" />
+                BIOMETRIC ANALYSIS
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col">
               <div className="h-[500px]">
                 <CustomGLBViewer />
               </div>
-               <div className="space-y-2 text-sm">
+              <div className="space-y-2 text-sm mt-4">
                 <div className="grid grid-cols-2 gap-2 text-emerald-100">
                   <div className="text-emerald-300">SPECIES:</div>
                   <div>{criminalProfile.species}</div>
@@ -201,37 +240,59 @@ const FeathersDashboard = () => {
                   <div className="text-emerald-300">WEIGHT:</div>
                   <div>{criminalProfile.weight}</div>
                 </div>
-            </div>
+              </div>
             </CardContent>
           </Card>
-          
 
-          {/* Right side cards - reduce spacing */}
+          {/* Right Column - Surveillance & Operations */}
           <div className="col-span-3 space-y-2">
-            <Card className="bg-gray-800 border-emerald-400 border">
-              <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                  <MapPin className="h-4 w-4" />
-                  SURVEILLANCE STATUS
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-3 gap-4 text-sm">
-                {/* Column 1: Radar Display */}
-                <div className="space-y-4">
+            {/* Surveillance Cards */}
+            <div className="grid grid-cols-2 gap-2">
+              {/* Status Card */}
+              <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
+                <CardHeader>
+                  <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
+                    <MapPin className="h-4 w-4" />
+                    SURVEILLANCE STATUS
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6 text-sm">
+                  {/* Location Info */}
                   <div className="grid grid-cols-2 gap-2 text-emerald-100">
-                    <div className="text-emerald-300">LOCATION:</div>
+                    <div className="text-emerald-400 font-medium">LOCATION:</div>
                     <div>{criminalProfile.lastSeen.location}</div>
-                    <div className="text-emerald-300">TIMESTAMP:</div>
+                    <div className="text-emerald-400 font-medium">TIMESTAMP:</div>
                     <div>{criminalProfile.lastSeen.timestamp}</div>
-                    <div className="text-emerald-300">STATUS:</div>
+                    <div className="text-emerald-400 font-medium">STATUS:</div>
                     <div className="text-red-400 animate-pulse">{criminalProfile.lastSeen.status}</div>
                   </div>
-                </div>
 
-                {/* Column 2: Location Info */}
-                <div>
-                  <div className="w-full h-36 relative">
-                    <svg className="w-full h-full" viewBox="-10 -10 220 220">
+                  {/* Features List */}
+                  <div>
+                    <div className="text-emerald-400 font-medium mb-2">DISTINGUISHING FEATURES:</div>
+                    <ul className="list-none space-y-2">
+                      {criminalProfile.distinguishingFeatures.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-2 text-emerald-100">
+                          <span className="text-emerald-400">[{String(index).padStart(2, '0')}]</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Radar Card */}
+              <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
+                <CardHeader>
+                  <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
+                    <Radio className="h-4 w-4" />
+                    RADAR TRACKING
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                  <div className="w-full h-64 relative">
+                    <svg className="w-full h-full" viewBox="0 0 220 220">
                       {/* Radar elements */}
                       <circle cx="100" cy="100" r="98" fill="none" stroke="rgb(52, 211, 153)" strokeWidth="2" />
                       {/* Background circles */}
@@ -266,78 +327,75 @@ const FeathersDashboard = () => {
                       />
                     </svg>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
+            </div>
 
-                {/* Column 3: Distinguishing Features */}
-                <div>
-                  <div className="text-emerald-300 mb-2">DISTINGUISHING FEATURES:</div>
-                  <ul className="list-none space-y-2">
-                    {criminalProfile.distinguishingFeatures.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2 text-emerald-100">
-                        <span className="text-emerald-400">[{String(index).padStart(2, '0')}]</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+            {/* Operations Card */}
+            <Card className="bg-gray-800 border-emerald-400 border rounded-sm">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
+                  <FileText className="h-4 w-4" />
+                  KNOWN OPERATIONS
+                </CardTitle>
+                <div className="flex gap-2">
+                  {Object.keys(operationsByYear).map((year) => (
+                    <button
+                      key={year}
+                      onClick={() => setSelectedYear(year)}
+                      className={`px-2 py-1 text-xs rounded border border-emerald-400 
+                        ${selectedYear === year 
+                          ? 'bg-emerald-400 text-gray-900' 
+                          : 'bg-transparent text-emerald-400 hover:bg-emerald-400/10'
+                        }`}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Fixed height container for operations */}
+                <div className="h-[300px] overflow-y-auto">
+                  {operationsByYear[selectedYear as unknown as keyof typeof operationsByYear].map((plot, index) => (
+                    <div key={index} className="mb-4 text-sm">
+                      <div className="grid grid-cols-2 gap-4">
+                        {/* Left column - Operation info */}
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-[180px_1fr] gap-x-4 gap-y-3 items-baseline">
+                            <div className="text-emerald-400 font-medium">OPERATION NAME:</div>
+                            <div className="text-emerald-100">{plot.operationName}</div>
+                            
+                            <div className="text-emerald-400 font-medium">DATE:</div>
+                            <div className="text-emerald-100">{plot.date}</div>
+                            
+                            <div className="text-emerald-400 font-medium">PRIMARY TARGET:</div>
+                            <div className="text-emerald-100">{plot.primaryTarget}</div>
+                            
+                            <div className="text-emerald-400 font-medium">METHODOLOGY:</div>
+                            <div className="text-emerald-100">{plot.methodology}</div>
+                            
+                            <div className="text-emerald-400 font-medium">OUTCOME:</div>
+                            <div className="text-red-400">{plot.outcome}</div>
+                            
+                            <div className="text-emerald-400 font-medium">OPERATIVE:</div>
+                            <div className="text-emerald-100">{plot.operativeInvolved}</div>
+                          </div>
+                        </div>
+
+                        {/* Right column - Operation details */}
+                        <div className="min-h-[200px] p-4 bg-gray-900/50 rounded border border-emerald-400/20">
+                          <div className="text-emerald-400 font-medium mb-3">OPERATION DETAILS:</div>
+                          <p className="text-emerald-100/90 font-mono leading-relaxed">
+                            {plot.details}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
-            {/* Bottom card */}
-          <Card className="bg-gray-800 border-emerald-400 border col-span-4 mt-2">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-sm flex items-center gap-2 text-emerald-300">
-                <FileText className="h-4 w-4" />
-                KNOWN OPERATIONS
-              </CardTitle>
-              <div className="flex gap-2">
-                {Object.keys(operationsByYear).map((year) => (
-                  <button
-                    key={year}
-                    onClick={() => setSelectedYear(year)}
-                    className={`px-2 py-1 text-xs rounded border border-emerald-400 
-                      ${selectedYear === year 
-                        ? 'bg-emerald-400 text-gray-900' 
-                        : 'bg-transparent text-emerald-400 hover:bg-emerald-400/10'
-                      }`}
-                  >
-                    {year}
-                  </button>
-                ))}
-              </div>
-            </CardHeader>
-            <CardContent>
-              {operationsByYear[selectedYear as unknown as keyof typeof operationsByYear].map((plot: {
-                operationName: string;
-                date: string;
-                primaryTarget: string;
-                methodology: string;
-                outcome: string;
-                operativeInvolved: string;
-                details: string;
-              }, index: number) => (
-                <div key={index} className="border-l border-emerald-400 pl-4 mb-4 text-sm">
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-emerald-100">
-                    <div className="text-emerald-300">OPERATION NAME:</div>
-                    <div>{plot.operationName}</div>
-                    <div className="text-emerald-300">DATE:</div>
-                    <div>{plot.date}</div>
-                    <div className="text-emerald-300">PRIMARY TARGET:</div>
-                    <div>{plot.primaryTarget}</div>
-                    <div className="text-emerald-300">METHODOLOGY:</div>
-                    <div>{plot.methodology}</div>
-                    <div className="text-emerald-300">OUTCOME:</div>
-                    <div className="text-yellow-400">{plot.outcome}</div>
-                    <div className="text-emerald-300">OPERATIVE:</div>
-                    <div>{plot.operativeInvolved}</div>
-                    <div className="col-span-2 mt-2">
-                      <div className="text-emerald-300 mb-1">OPERATION DETAILS:</div>
-                      <div className="pl-4">{plot.details}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
           </div>
         </CardContent>
       </Card>
