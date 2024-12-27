@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useRef, useState } from "react"
+import { Suspense, useRef, useState, useEffect } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { 
   OrbitControls, 
@@ -29,13 +29,23 @@ function Model({ url }: { url: string }) {
   const { scene } = useGLTF(url)
   const modelRef = useRef<THREE.Group>()
 
+  useEffect(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.y = Math.PI;
+    }
+  }, [])
+
   useFrame((state) => {
     if (modelRef.current) {
-      modelRef.current.rotation.y = state.clock.elapsedTime * 0.2
+      modelRef.current.rotation.y = Math.PI + state.clock.elapsedTime * 0.2;
     }
   })
 
-  return <primitive ref={modelRef} object={scene} />
+  return <primitive 
+    ref={modelRef} 
+    object={scene} 
+    scale={2}
+  />
 }
 
 const GLBViewerComponent = () => {
@@ -44,17 +54,27 @@ const GLBViewerComponent = () => {
   return (
     <div className="relative w-full h-full bg-gray-800">
       <Canvas shadows>
-        <color attach="background" args={["#1f2937"]} />
-        <PerspectiveCamera makeDefault position={[0, 2, 5]} fov={50} />
+        <PerspectiveCamera 
+          makeDefault 
+          position={[0, 1.5, 2]} 
+          fov={25} 
+        />
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 5, 5]} intensity={0.5} castShadow shadow-mapSize={[1024, 1024]} />
         <pointLight position={[-5, 5, -5]} intensity={0.5} />
-        <Environment preset="warehouse" background blur={0.6} />
+        <Environment preset="warehouse" background={false} />
         <Suspense fallback={null}>
           <Model url={currentModelUrl} />
         </Suspense>
         <ContactShadows position={[0, -0.99, 0]} opacity={0.4} scale={10} blur={2} far={4} />
-        <OrbitControls minPolarAngle={Math.PI / 4} maxPolarAngle={Math.PI / 1.5} enableZoom={true} enablePan={true} />
+        <OrbitControls 
+          minPolarAngle={Math.PI / 2.5}
+          maxPolarAngle={Math.PI / 1.8}
+          minAzimuthAngle={-Math.PI / 4}
+          maxAzimuthAngle={Math.PI / 4}
+          enableZoom={true}
+          enablePan={false}
+        />
       </Canvas>
 
       <div className="absolute top-2 left-2 bg-gray-900/80 backdrop-blur-sm p-2 rounded-lg shadow-md">
